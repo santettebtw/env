@@ -55,3 +55,5 @@ alias ysdf="setxkbmap us -option caps:escape"
 alias asdf="setxkbmap us -variant real-prog-dvorak -option caps:escape"
 alias asdf="setxkbmap us -variant real-prog-dvorak -option caps:escape"
 alias aoeu="setxkbmap us -option caps:escape"
+
+alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit -m "[WIP]: $(date)"'
