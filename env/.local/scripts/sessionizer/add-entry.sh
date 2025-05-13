@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_LIST_FILE=${PROJECT_LIST_FILE:-$HOME/.config/tmux/scripts/sessionizer/project-list.txt}
+PROJECT_LIST_FILE=${PROJECT_LIST_FILE:-$HOME/.local/state/sessionizer/project-list.txt}
 
 mkdir -p "$(dirname "$PROJECT_LIST_FILE")"
 touch "$PROJECT_LIST_FILE"
