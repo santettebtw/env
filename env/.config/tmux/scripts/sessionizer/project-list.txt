@@ -26,6 +26,7 @@
 /home/sowsanti/Documents/cours/RXI/labos/06
 /home/sowsanti/Documents/Obsidian/personal
 /home/sowsanti/Documents/typst
+/home/sowsanti/personal/env
 /home/sowsanti/qmk_firmware
 /home/sowsanti/repos/matrix-docker-ansible-deploy
 /home/sowsanti/repos/neoment
