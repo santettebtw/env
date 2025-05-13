@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# List of keyboard layouts (customize this to your needs)
+layouts=("us" "ch fr")
+
+# Use dmenu to choose
+chosen=$(printf "%s\n" "${layouts[@]}" | dmenu -i -p "Select layout:")
+
+# If a choice was made, apply it
+if [ -n "$chosen" ]; then
+    setxkbmap $chosen -option caps:escape
+    notify-send "Keyboard layout set to $chosen"
+fi

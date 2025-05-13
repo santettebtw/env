@@ -1,0 +1,34 @@
+[colors]
+#draw_bold_text_with_bright_colors = false
+
+# Default colors
+[colors.primary]
+background = '#1c1c1c'
+foreground = '#bcbcbc'
+
+# Colors the cursor will use if `custom_cursor_colors` is true
+[colors.cursor]
+text = 'CellBackground'
+cursor = 'CellForeground'
+
+# Normal colors
+[colors.normal]
+black = '#1c1c1c'
+red = '#af5f5f'
+green = '#5faf5f'
+yellow = '#af875f'
+blue = '#0184BC'
+magenta = '#af87af'
+cyan = '#5f8787'
+white = '#9e9e9e'
+
+# Bright colors
+[colors.bright]
+black = '#969896'
+red = '#d75f87'
+green = '#87d787'
+yellow = '#d7af87'
+blue = '#5fafd7'
+magenta = '#d787d7'
+cyan = '#56B6C2'
+white = '#bcbcbc'

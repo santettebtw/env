@@ -1,0 +1,5 @@
+require("sowsanti.options")
+require("sowsanti.lazy")
+require("sowsanti.sandbox")
+require("sowsanti.mapping")
+require("sowsanti.autocmd")

@@ -1,0 +1,12 @@
+[env]
+TERM = 'xterm-256color'
+
+[general]
+import = ["themes/grapemax.toml"]
+# import = ["themes/grape.toml"]
+# import = ["themes/habamax.toml"]
+# import = ["themes/tomorrow-night2.toml"]
+
+[font]
+normal = { family = "Iosevka NF", style = "Regular" }
+size = 12

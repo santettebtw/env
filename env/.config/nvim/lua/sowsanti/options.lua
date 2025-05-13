@@ -1,0 +1,13 @@
+vim.g.mapleader = " "
+vim.o.guicursor = ''
+vim.o.expandtab = true
+vim.o.shiftwidth = 2
+vim.o.nu = true
+vim.o.rnu = true
+vim.o.signcolumn = 'yes'
+vim.o.scrolloff = 0
+vim.o.sidescrolloff = 3
+--vim.o.laststatus = 3
+vim.o.undofile = true
+vim.o.completeopt="menuone,noselect,popup"
+vim.o.pumheight = 10 -- height of completion menu

@@ -1,0 +1,41 @@
+# this is a script that switches themes based on user input
+# it switches the themes from multiple applications, including i3, tmux, neovim and alacritty
+# the themes are stored in separate files for each application in the themes/<theme-name> directory
+# and are named as follows:
+# i3: i3
+# tmux: tmux.conf
+# neovim: nvim-base16-colorsheme.lua
+# alacritty: alacritty.toml
+
+# the bases folder contains the base configuration files for each application, than may need to be appended
+# after the theme is applied
+
+# the script takes one argument, the name of the theme to switch to
+
+# check if the theme exists
+if [ ! -d "$THEME_SWITCHER_THEMES_DIR/$1" ]; then
+    echo "Theme $1 does not exist"
+    exit 1
+fi
+
+# i3
+cp ~/.config/i3/config $THEME_SWITCHER_BACKUPS_DIR/i3
+cat $THEME_SWITCHER_THEMES_DIR/$1/i3 \
+    $THEME_SWITCHER_BASES_DIR/i3 >~/.config/i3/config
+i3-msg reload
+
+# tmux
+cp ~/.config/tmux/addons/status.conf $THEME_SWITCHER_BACKUPS_DIR/tmux.conf
+cat $THEME_SWITCHER_THEMES_DIR/$1/tmux.conf \
+    $THEME_SWITCHER_BASES_DIR/tmux.conf >~/.config/tmux/addons/status.conf
+tmux source-file ~/.config/tmux/tmux.conf
+
+# alacritty
+cp ~/.config/alacritty/themes/colors.toml $THEME_SWITCHER_BACKUPS_DIR/alacritty.toml
+cat $THEME_SWITCHER_THEMES_DIR/$1/alacritty.toml \
+    $THEME_SWITCHER_BASES_DIR/alacritty.toml >~/.config/alacritty/themes/colors.toml
+
+# neovim
+cp ~/.config/nvim/lua/plugins/colors.lua $THEME_SWITCHER_BACKUPS_DIR/nvim-base16-colorscheme.lua
+cat $THEME_SWITCHER_THEMES_DIR/$1/nvim-base16-colorscheme.lua \
+    $THEME_SWITCHER_BASES_DIR/nvim-base16-colorscheme.lua >~/.config/nvim/lua/plugins/colors.lua
