@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_LIST_FILE=${PROJECT_LIST_FILE:-$HOME/.config/tmux/scripts/sessionizer/project-list.txt}
+PROJECT_LIST_FILE=${PROJECT_LIST_FILE:-$HOME/.local/scripts/sessionizer/project-list.txt}
 
 mkdir -p "$(dirname "$PROJECT_LIST_FILE")"
 touch "$PROJECT_LIST_FILE"
@@ -10,10 +10,10 @@ if [[ $# -gt 0 ]]; then
   shift
 
   if [[ $command == "add" ]]; then
-    "$HOME/.config/tmux/scripts/sessionizer/add-entry.sh" "$@"
+    "$HOME/.local/scripts/sessionizer/add-entry.sh" "$@"
     exit $?
   elif [[ $command == "remove" ]]; then
-    "$HOME/.config/tmux/scripts/sessionizer/remove-entry.sh" "$@"
+    "$HOME/.local/scripts/sessionizer/remove-entry.sh" "$@"
     exit $?
   else
     selected=$command
