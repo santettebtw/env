@@ -34,6 +34,7 @@ return {
       vim.lsp.enable("gopls")
       vim.lsp.enable("htmx")
       vim.lsp.enable("tinymist")
+      vim.lsp.enable("clangd")
 
       vim.diagnostic.config({
         virtual_text = true,
@@ -126,7 +127,7 @@ return {
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
