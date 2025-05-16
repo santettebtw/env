@@ -49,7 +49,7 @@ local theme = lush(function(injected_functions)
   return {
     -- Core syntax highlighting
     Normal       { fg = colors.fg, bg = colors.bg },
-    NormalFloat  { Normal, bg = colors.bg_light },
+    NormalFloat  { Normal, bg = colors.bg_dark },
     NormalNC     { Normal },
     Comment      { fg = colors.gray3, gui = "italic" },
     Constant     { fg = colors.yellow },
@@ -406,7 +406,7 @@ local theme = lush(function(injected_functions)
     WhichKeyDesc            { fg = colors.magenta },
     WhichKeySeperator       { fg = colors.gray3 },
     WhichKeySeparator       { fg = colors.gray3 },
-    WhichKeyFloat           { bg = colors.bg_light },
+    WhichKeyFloat           { bg = colors.bg_dark },
     WhichKeyValue           { fg = colors.gray3 },
 
     -- Bufferline
@@ -469,6 +469,17 @@ local theme = lush(function(injected_functions)
 
     -- Miscellaneous
     FloatBorder             { fg = colors.gray2, bg = colors.bg_light },
+
+    -- MiniDiffSign
+    MiniDiffSignAdd         { DiffAdd },
+    MiniDiffSignChange      { DiffChange },
+    MiniDiffSignDelete      { DiffDelete },
+
+    -- LineNrDiagnostics
+    LineNrDiagnosticsError   { DiagnosticError, reverse = true },
+    LineNrDiagnosticsWarn    { DiagnosticWarn, reverse = true },
+    LineNrDiagnosticsHint    { DiagnosticHint, reverse = true },
+    LineNrDiagnosticsInfo    { DiagnosticInfo, reverse = true },
   }
 end)
 

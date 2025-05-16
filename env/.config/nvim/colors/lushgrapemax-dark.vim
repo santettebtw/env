@@ -87,8 +87,11 @@ highlight DiagnosticVirtualTextInfo guifg=#7E59F8 guibg=#212121 guisp=NONE blend
 highlight DiagnosticVirtualTextWarn guifg=#D1E462 guibg=#212121 guisp=NONE blend=NONE gui=NONE
 highlight DiagnosticWarn guifg=#D1E462 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight DiffAdd guifg=#171717 guibg=#30BB6E guisp=NONE blend=NONE gui=NONE
+highlight! link MiniDiffSignAdd DiffAdd
 highlight DiffChange guifg=#171717 guibg=#D1E462 guisp=NONE blend=NONE gui=NONE
+highlight! link MiniDiffSignChange DiffChange
 highlight DiffDelete guifg=#171717 guibg=#D34A6D guisp=NONE blend=NONE gui=NONE
+highlight! link MiniDiffSignDelete DiffDelete
 highlight DiffText guifg=#171717 guibg=#9876FE guisp=NONE blend=NONE gui=NONE
 highlight Directory guifg=#7E59F8 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight EndOfBuffer guifg=#333333 guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -126,6 +129,10 @@ highlight! link TSLabel Label
 highlight LineNr guifg=#7E59F8 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight LineNrAbove guifg=#545454 guibg=#171717 guisp=NONE blend=NONE gui=italic
 highlight LineNrBelow guifg=#545454 guibg=#171717 guisp=NONE blend=NONE gui=italic
+highlight LineNrDiagnosticsError guifg=#D34A6D guibg=NONE guisp=NONE blend=NONE gui=reverse
+highlight LineNrDiagnosticsHint guifg=#01D5D2 guibg=NONE guisp=NONE blend=NONE gui=reverse
+highlight LineNrDiagnosticsInfo guifg=#7E59F8 guibg=NONE guisp=NONE blend=NONE gui=reverse
+highlight LineNrDiagnosticsWarn guifg=#D1E462 guibg=NONE guisp=NONE blend=NONE gui=reverse
 highlight LspDiagnosticsDefaultError guifg=#D34A6D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight LspDiagnosticsDefaultHint guifg=#01D5D2 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight LspDiagnosticsDefaultInformation guifg=#7E59F8 guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -153,7 +160,7 @@ highlight ModeMsg guifg=#30BB6E guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight MoreMsg guifg=#30BB6E guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight MsgSeparator guifg=NONE guibg=#212121 guisp=NONE blend=NONE gui=NONE
 highlight NonText guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight NormalFloat guifg=#C5C9C6 guibg=#212121 guisp=NONE blend=NONE gui=NONE
+highlight NormalFloat guifg=#C5C9C6 guibg=#121212 guisp=NONE blend=NONE gui=NONE
 highlight Number guifg=#E8FD72 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link Float Number
 highlight! link TSNumber Number
@@ -362,7 +369,7 @@ highlight! link VisualNOS Visual
 highlight WarningMsg guifg=#D1E462 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight WhichKey guifg=#01D5D2 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight WhichKeyDesc guifg=#EB60D6 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight WhichKeyFloat guifg=NONE guibg=#212121 guisp=NONE blend=NONE gui=NONE
+highlight WhichKeyFloat guifg=NONE guibg=#121212 guisp=NONE blend=NONE gui=NONE
 highlight WhichKeyGroup guifg=#7E59F8 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight WhichKeySeparator guifg=#787878 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight WhichKeySeperator guifg=#787878 guibg=NONE guisp=NONE blend=NONE gui=NONE
