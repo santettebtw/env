@@ -4,6 +4,9 @@ export PATH=$PATH:~/.cargo/bin/:~/.local/bin:/usr/bin:/sbin:/usr/sbin:/bin:~/go/
 
 alias tt='tt -n 15 -theme grapemax -csv >> ~/wpm.csv'
 source /usr/share/nvm/init-nvm.sh
+fpath=(~/.local/scripts/zsh-completion $fpath)
+autoload -Uz compinit
+compinit
 alias bbl='~/Downloads/Blablaland-Desktop-Client.AppImage --target=http://127.0.0.1:8000/'
 alias bblc='~/Downloads/Blablaland-Desktop-Console.AppImage --target=http://127.0.0.1:8000/console/view'
 alias bblco='~/Downloads/Blablaland-Desktop-Client.AppImage --target=https://blablaland.co/'
