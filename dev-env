@@ -1,67 +1,117 @@
 #!/usr/bin/env bash
-dry_run="0"
 
-if [ -z "$XDG_CONFIG_HOME" ]; then
-    echo "no xdg config hom"
-    echo "using ~/.config"
-    XDG_CONFIG_HOME=$HOME/.config
-fi
+# --- Environment setup ---
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+DEV_ENV="${DEV_ENV:?env var DEV_ENV needs to be present}"
 
-if [ -z "$DEV_ENV" ]; then
-    echo "env var DEV_ENV needs to be present"
+RED='\033[0;31m'
+GREEN='\033[0;33m'
+NC='\033[0m'
+
+mode=${1:-}
+if [[ -z "$mode" ]]; then
+    echo "Usage: $0 {diff|apply|dry} [--full]"
     exit 1
 fi
 
-if [[ $1 == "--dry" ]]; then
-    dry_run="1"
+full_diff=0
+if [[ "${2:-}" == "--full" ]]; then
+    full_diff=1
 fi
 
-log() {
-    if [[ $dry_run == "1" ]]; then
-        echo "[DRY_RUN]: $1"
+log() { echo "$1"; }
+
+# --- Diff summary ---
+show_diff() {
+    local src=$1 dest=$2
+    [[ ! -e $src ]]  && { log "source $src missing"; return; }
+    [[ ! -e $dest ]] && { log "dest $dest missing"; return; }
+
+    log ">>> comparing: $src -> $dest"
+
+    if [[ $full_diff -eq 1 ]]; then
+        local diff_output
+        diff_output=$(diff -ruN --color=always "$src" "$dest" || true)
+
+        if [[ -n "$diff_output" ]]; then
+            echo "$diff_output" | less -R
+        else
+            log "no differences"
+        fi
     else
-        echo "$1"
+        # summary mode (diffstat-like)
+		diff -ruN "$src" "$dest" | awk '
+			BEGIN {
+				RED="\033[31m"; GREEN="\033[32m"; RESET="\033[0m"
+			}
+			/^diff /     { file=$3; next }
+			/^\+\+\+/    { next }
+			/^---/       { next }
+			/^\+/        { add[file]++ }
+			/^-/         { del[file]++ }
+			END {
+				total_add=0; total_del=0; files=0
+				for (f in add) {
+					printf "%s | %s+%d%s %s-%d%s\n", f, GREEN, add[f], RESET, RED, del[f], RESET
+					total_add+=add[f]; total_del+=del[f]; files++
+				}
+				for (f in del) {
+					if (!(f in add)) {
+						printf "%s | %s+0%s %s-%d%s\n", f, GREEN, RESET, RED, del[f], RESET
+						total_del+=del[f]; files++
+					}
+				}
+				if (files > 0) {
+					printf("\n%d files changed, %s%d insertions(+)%s, %s%d deletions(-)%s\n", files, GREEN, total_add, RESET, RED, total_del, RESET)
+				}
+			}
+		'
     fi
 }
 
+sync() {
+    local src_root=$1 dest_root=$2
+
+    if [[ -d "$src_root" ]]; then
+        # directory: iterate over items
+        for item in "$src_root"/*; do
+            [[ ! -e $item ]] && continue
+            local rel=${item#"$src_root"/}   # relative path
+            local dest="$dest_root/$rel"
+
+            case $mode in
+                diff)  show_diff "$item" "$dest" ;;
+                dry)   log "[DRY] would replace: $dest <- $item" ;;
+                apply)
+                    log "replacing: $dest <- $item"
+                    rm -rf "$dest"
+                    cp -r "$item" "$dest"
+                    ;;
+            esac
+        done
+    elif [[ -f "$src_root" ]]; then
+        # file: just sync it directly
+        case $mode in
+            diff)  show_diff "$src_root" "$dest_root" ;;
+            dry)   log "[DRY] would replace: $dest_root <- $src_root" ;;
+            apply)
+                log "replacing: $dest_root <- $src_root"
+                rm -f "$dest_root"
+                cp "$src_root" "$dest_root"
+                ;;
+        esac
+    else
+        log "source $src_root does not exist"
+    fi
+}
+
+# --- Run ---
 log "env: $DEV_ENV"
 
-update_files() {
-    log "copying over files from: $1"
-    pushd $1 &> /dev/null
-    (
-        configs=`find . -mindepth 1 -maxdepth 1 -type d`
-        for c in $configs; do
-            directory=${2%/}/${c#./}
-            log "    removing: rm -rf $directory"
+# Directories to sync
+sync "$DEV_ENV/env/.config" "$XDG_CONFIG_HOME"
+sync "$DEV_ENV/env/.local"  "$HOME/.local"
 
-            if [[ $dry_run == "0" ]]; then
-                rm -rf $directory
-            fi
-
-            log "    copying env: cp $c $2"
-            if [[ $dry_run == "0" ]]; then
-                cp -r ./$c $2
-            fi
-        done
-
-    )
-    popd &> /dev/null
-}
-
-copy() {
-    log "removing: $2"
-    if [[ $dry_run == "0" ]]; then
-        rm $2
-    fi
-    log "copying: $1 to $2"
-    if [[ $dry_run == "0" ]]; then
-        cp $1 $2
-    fi
-}
-
-update_files $DEV_ENV/env/.config $XDG_CONFIG_HOME
-update_files $DEV_ENV/env/.local $HOME/.local
-
-copy $DEV_ENV/env/.zshrc $HOME/.zshrc
-copy $DEV_ENV/dev-env $HOME/.local/bin/dev-env
+# Individual files
+sync "$DEV_ENV/env/.zshrc" "$HOME/.zshrc"
+sync "$DEV_ENV/dev-env"    "$HOME/.local/bin/dev-env"
