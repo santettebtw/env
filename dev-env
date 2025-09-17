@@ -59,7 +59,7 @@ show_diff() {
 
     if [[ $full_diff -eq 1 ]]; then
         local diff_output
-        diff_output=$(diff -ruN --color=always "$src" "$dest" || true)
+        diff_output=$(diff -ruN --color=always "$dest" "$src" || true)
 
         if [[ -n "$diff_output" ]]; then
             echo "$diff_output" | less -R
@@ -68,7 +68,7 @@ show_diff() {
         fi
     else
         # summary mode (diffstat-like)
-		diff -ruN "$src" "$dest" | awk '
+		diff -ruN "$dest" "$src" | awk '
 			BEGIN {
 				RED="\033[31m"; GREEN="\033[32m"; RESET="\033[0m"
 			}
