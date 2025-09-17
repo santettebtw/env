@@ -1,4 +1,4 @@
-export PATH=$PATH:~/.cargo/bin/:~/.local/bin:/usr/bin:/sbin:/usr/sbin:/bin:~/go/bin
+export PATH=$PATH:~/.cargo/bin/:~/.local/bin:/usr/bin:/sbin:/usr/sbin:/bin:~/go/bin:/home/sowsanti/Downloads/gcc-arm/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf/bin
 
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 
