@@ -1,5 +1,5 @@
 config.load_autoconfig()
-config.set("colors.webpage.darkmode.enabled", True)
+# config.set("colors.webpage.darkmode.enabled", True)
 # config.set("auto_save.session", True)
 config.bind("tt", "set colors.webpage.darkmode.enabled false")
 config.bind("tg", "set colors.webpage.darkmode.enabled true")
