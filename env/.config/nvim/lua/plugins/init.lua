@@ -1,0 +1,7 @@
+require('plugins.lsp')
+require('plugins.nvim-treesitter')
+require('plugins.mini')
+require('plugins.debug')
+require('plugins.fugitive')
+require('plugins.avante')
+require('plugins.typst-preview')

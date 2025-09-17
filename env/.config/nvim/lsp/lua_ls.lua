@@ -1,23 +1,29 @@
-vim.lsp.config.lua_ls = {
-    on_attach = function(client, buf_id)
-        -- Reduce unnecessarily long list of completion triggers for better
-        -- 'mini.completion' experience
-        client.server_capabilities.completionProvider.triggerCharacters = { '.', ':', '#', '(' }
-    end,
-    settings = {
-        Lua = {
-            runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
-            diagnostics = {
-                -- Don't analyze whole workspace, as it consumes too much CPU and RAM
-                workspaceDelay = -1,
-            },
-            workspace = {
-                -- Don't analyze code from submodules
-                ignoreSubmodules = true,
-                -- Add Neovim's methods for easier code writing
-                library = { vim.env.VIMRUNTIME },
-            },
-            telemetry = { enable = false },
-        },
-    },
+return {
+	-- Command and arguments to start the server.
+	cmd = { 'lua-language-server' },
+
+	-- Filetypes to automatically attach to.
+	filetypes = { 'lua' },
+
+	-- Sets the "root directory" to the parent directory of the file in the
+	-- current buffer that contains either a ".luarc.json" or a
+	-- ".luarc.jsonc" file. Files that share a root directory will reuse
+	-- the connection to the same LSP server.
+	-- Nested lists indicate equal priority, see |vim.lsp.Config|.
+	root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
+
+	-- Specific settings to send to the server. The schema for this is
+	-- defined by the server. For example the schema for lua-language-server
+	-- can be found here https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json
+	settings = {
+		Lua = {
+			runtime = {
+				version = 'LuaJIT',
+			},
+			diagnostics = {
+				-- Get the language server to recognize the `vim` global
+				globals = { 'vim' },
+			},
+		}
+	}
 }
