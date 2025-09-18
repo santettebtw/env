@@ -1,0 +1,11 @@
+#!/bin/bash
+
+REPO_LOCAL_NAME=$(basename $(git rev-parse --show-toplevel 2>/dev/null) 2>/dev/null)
+
+[[ -z $REPO_LOCAL_NAME ]] && \
+	>&2 echo "not a git repository" && \
+	exit 1
+
+exec curl -H "Authorization: token $GITHUB_HEIG_SSS_API_KEY" \
+	-d "{\"name\": \"$REPO_LOCAL_NAME\", \"private\": false}" \
+	https://api.github.com/orgs/heig-sss/repos 2>/dev/null
