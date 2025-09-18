@@ -1,0 +1,12 @@
+[diff]
+	tool = nvim
+[difftool "nvim"]
+	cmd = nvim -d $LOCAL $REMOTE
+[commit]
+	gpgSign = true
+[gpg]
+	format = ssh
+[includeIf "gitdir:~/personal/"]
+    path = ~/.gitconfig-personal
+[includeIf "gitdir:~/school/"]
+    path = ~/.gitconfig-school

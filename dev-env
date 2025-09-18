@@ -114,4 +114,7 @@ sync "$DEV_ENV/env/.local"  "$HOME/.local"
 
 # Individual files
 sync "$DEV_ENV/env/.zshrc" "$HOME/.zshrc"
-sync "$DEV_ENV/dev-env"    "$HOME/.local/bin/dev-env"
+sync "$DEV_ENV/env/.gitconfig" "$HOME/.gitconfig"
+sync "$DEV_ENV/env/.gitconfig-personal" "$HOME/.gitconfig-personal"
+sync "$DEV_ENV/env/.gitconfig-school" "$HOME/.gitconfig-school"
+sync "$DEV_ENV/dev-env" "$HOME/.local/bin/dev-env"
