@@ -10,7 +10,7 @@ NC='\033[0m'
 
 mode=${1:-}
 if [[ -z "$mode" ]]; then
-    echo "Usage: $0 {diff|apply|dry} [--full]"
+    echo "Usage: $0 {diff|apply|dry|put-keys} [--full]"
     exit 1
 fi
 
@@ -20,6 +20,34 @@ if [[ "${2:-}" == "--full" ]]; then
 fi
 
 log() { echo "$1"; }
+
+# --- Secrets management ---
+put_keys() {
+    local plain=$1
+    local encrypted=$2
+
+    if [[ ! -f "$plain" ]]; then
+        log "No plaintext keyfile at $plain"
+        return 1
+    fi
+
+    log "Encrypting $plain -> $encrypted"
+    gpg -c --batch --yes --output "$encrypted" "$plain"
+}
+
+get_keys() {
+    local encrypted=$1
+    local plain=$2
+
+    if [[ ! -f "$encrypted" ]]; then
+        log "No encrypted keyfile at $encrypted"
+        return 1
+    fi
+
+    log "Decrypting $encrypted -> $plain"
+    mkdir -p "$(dirname "$plain")"
+    gpg --quiet --batch --yes --output "$plain" --decrypt "$encrypted"
+}
 
 # --- Diff summary ---
 show_diff() {
@@ -108,14 +136,28 @@ sync() {
 # --- Run ---
 log "env: $DEV_ENV"
 
-# Directories to sync
-sync "$DEV_ENV/env/.config" "$XDG_CONFIG_HOME"
-sync "$DEV_ENV/env/.local"  "$HOME/.local"
+case $mode in
+    diff|dry|apply)
+        # Directories to sync
+        sync "$DEV_ENV/env/.config" "$XDG_CONFIG_HOME"
+        sync "$DEV_ENV/env/.local"  "$HOME/.local"
 
-# Individual files
-sync "$DEV_ENV/env/.zshrc" "$HOME/.zshrc"
-sync "$DEV_ENV/env/.gitconfig" "$HOME/.gitconfig"
-sync "$DEV_ENV/env/.gitconfig-personal" "$HOME/.gitconfig-personal"
-sync "$DEV_ENV/env/.gitconfig-school" "$HOME/.gitconfig-school"
-sync "$DEV_ENV/env/.zsh/config" "$HOME/.zsh/config"
-sync "$DEV_ENV/dev-env" "$HOME/.local/bin/dev-env"
+        # Individual files
+        sync "$DEV_ENV/env/.zshrc" "$HOME/.zshrc"
+        sync "$DEV_ENV/env/.gitconfig" "$HOME/.gitconfig"
+        sync "$DEV_ENV/env/.gitconfig-personal" "$HOME/.gitconfig-personal"
+        sync "$DEV_ENV/env/.gitconfig-school" "$HOME/.gitconfig-school"
+        sync "$DEV_ENV/env/.zsh/config" "$HOME/.zsh/config"
+        sync "$DEV_ENV/dev-env" "$HOME/.local/bin/dev-env"
+
+        # Secrets: only decrypt when applying
+        [[ $mode == "apply" ]] && get_keys "$DEV_ENV/env/api_keys.sh.gpg" "$HOME/personal/.private/api_keys.sh"
+        ;;
+    put-keys)
+        put_keys "$HOME/personal/.private/api_keys.sh" "$DEV_ENV/env/api_keys.sh.gpg"
+        ;;
+    *)
+        echo "Usage: $0 {diff|apply|dry|put-keys}"
+        exit 1
+        ;;
+esac
