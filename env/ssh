@@ -1,0 +1,10 @@
+Host github.com
+   HostName github.com
+   IdentityFile ~/.ssh/id_ed25519heig
+   IdentitiesOnly yes
+   
+# Other github account: superman
+Host github-personal
+   HostName github.com
+   IdentityFile ~/.ssh/id_ed25519
+   IdentitiesOnly yes
