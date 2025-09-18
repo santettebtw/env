@@ -1,0 +1,36 @@
+#!/bin/bash
+
+REPO_LOCAL_NAME=$(basename $(git rev-parse --show-toplevel 2>/dev/null) 2>/dev/null)
+SSH_URL=""
+
+[[ -z $REPO_LOCAL_NAME ]] && \
+	>&2 echo "not a git repository" && \
+	exit 1
+
+response=$(curl -sS --fail-with-body -H "Authorization: token $GITHUB_HEIG_SSS_API_KEY" \
+    -d "{\"name\": \"$REPO_LOCAL_NAME\", \"private\": false}" \
+    https://api.github.com/orgs/heig-sss/repos)
+
+# parse and display result
+if echo "$response" | jq -e 'has("message") and .errors' > /dev/null; then
+    # error case
+    message=$(echo "$response" | jq -r '.message')
+    error_detail=$(echo "$response" | jq -r '.errors[0].message')
+    >&2 echo "❌ GitHub error: $message – $error_detail"
+    exit 1
+elif echo "$response" | jq -e 'has("html_url")' > /dev/null; then
+    # success case
+    url=$(echo "$response" | jq -r '.html_url')
+	SSH_URL=$(echo "$response" | jq -r '.ssh_url')
+    echo -e "✅ Repository created: $url\n\tssh: $SSH_URL"
+else
+    # unexpected response
+    >&2 echo "⚠️ Unexpected response from GitHub:"
+    echo "$response"
+    exit 1
+fi
+
+if [[ -n $SSH_URL ]]; then
+	git remote add heig-sss $SSH_URL
+	echo "added remote heig-sss $SSH_URL"
+fi
