@@ -1,6 +1,7 @@
 export PATH=$PATH:~/.cargo/bin/:~/.local/bin:/usr/bin:/sbin:/usr/sbin:/bin:~/go/bin:/home/sowsanti/Downloads/gcc-arm/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf/bin
 
 source ~/personal/.private/api_keys.sh
+source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 source /usr/share/nvm/init-nvm.sh
 fpath=(~/.local/scripts/zsh-completion $fpath)

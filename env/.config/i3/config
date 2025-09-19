@@ -267,6 +267,8 @@ bindsym $mod+Mod1+r exec --no-startup-id "cd /home/sowsanti/vms && quickemu --vm
 bindsym $mod+Mod1+s exec --no-startup-id "cd /home/sowsanti/Downloads/Scrivano_0.20.8 && ./Scrivano.sh"
 bindsym $mod+Mod1+o exec --no-startup-id "obsidian"
 bindsym $mod+Shift+s exec --no-startup-id flameshot gui
+bindsym $mod+Shift+u exec --no-startup-id "GDK_SCALE=2 java -jar /home/sowsanti/personal/slyum/bin/latest\ release/Slyum.jar"
+bindsym $mod+Shift+d exec --no-startup-id staruml
 
 # switch between us and ch fr layout with dmenu
 bindsym $mod+Shift+period exec --no-startup-id "/home/sowsanti/.local/bin/dmenu-select-layout"
