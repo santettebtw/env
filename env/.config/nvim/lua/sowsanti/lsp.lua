@@ -2,6 +2,7 @@ vim.lsp.enable('lua_ls')
 vim.lsp.enable('clangd')
 vim.lsp.enable('tinymist')
 vim.lsp.enable('gopls')
+vim.lsp.enable('jdtls')
 
 --- @param diagnostic? vim.Diagnostic
 --- @param bufnr integer
@@ -27,3 +28,10 @@ vim.keymap.set("n", "<leader>h", function()
     vim.cmd("edit " .. vim.uri_to_fname(result))
   end)
 end, { buffer = true, desc = "Switch between header and source" })
+
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = 'java',
+	callback = function(args)
+		require('jdtls.jdtls_setup').setup()
+	end
+})
