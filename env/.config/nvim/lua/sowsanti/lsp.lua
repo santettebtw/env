@@ -3,6 +3,7 @@ vim.lsp.enable('clangd')
 vim.lsp.enable('tinymist')
 vim.lsp.enable('gopls')
 vim.lsp.enable('jdtls')
+vim.lsp.enable('kotlin_lsp')
 
 --- @param diagnostic? vim.Diagnostic
 --- @param bufnr integer
